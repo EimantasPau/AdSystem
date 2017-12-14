@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FCF4F2;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.LoginRegistrationController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="72.0" prefHeight="30.0" prefWidth="150.0" text="Username" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="127.0" prefHeight="30.0" prefWidth="150.0" text="Password" />
+      <TextField fx:id="loginUsername" layoutX="75.0" layoutY="102.0" prefWidth="150.0" />
+      <PasswordField fx:id="loginPassword" layoutX="76.0" layoutY="156.0" />
+      <Button fx:id="loginButton" layoutX="75.0" layoutY="213.0" mnemonicParsing="false" onAction="#attemptLogin" prefWidth="150.0" style="-fx-background-color: #FF5733;" text="Login" textFill="WHITE" textOverrun="CLIP">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Separator layoutX="296.0" layoutY="6.0" orientation="VERTICAL" prefHeight="389.0" prefWidth="9.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="375.0" layoutY="72.0" prefHeight="30.0" prefWidth="150.0" text="Username" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="375.0" layoutY="127.0" prefHeight="30.0" prefWidth="150.0" text="Password" />
+      <TextField fx:id="registrationUsername" layoutX="375.0" layoutY="102.0" prefWidth="150.0" />
+      <Button fx:id="registerButton" layoutX="375.0" layoutY="274.0" mnemonicParsing="false" onAction="#registerUser" prefWidth="150.0" style="-fx-background-color: #FF5733;" text="Register" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="75.0" layoutY="35.0" prefWidth="150.0" text="Login for users">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="377.0" layoutY="35.0" prefWidth="150.0" text="User registration">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="375.0" layoutY="186.0" prefHeight="30.0" prefWidth="150.0" text="Confirm password" />
+      <PasswordField fx:id="registrationPassword" layoutX="376.0" layoutY="156.0" />
+      <PasswordField fx:id="registrationPasswordConfirm" layoutX="376.0" layoutY="213.0" />
+   </children>
+</AnchorPane>
