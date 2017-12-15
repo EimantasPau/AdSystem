@@ -4,7 +4,7 @@ import net.jini.core.entry.Entry;
 
 import java.util.Date;
 
-public class Ad implements Entry {
+public class U1363000Ad implements Entry {
     public Integer ID;
     public Integer userID;
     public String name;
@@ -13,7 +13,7 @@ public class Ad implements Entry {
     public String type;
     public Date closingTime = null;
 
-    public Ad(int ID, int userID, String name, String description, double price, String type){
+    public U1363000Ad(int ID, int userID, String name, String description, double price, String type){
         this.ID = ID;
         this.userID = userID;
         this.name = name;
@@ -21,7 +21,7 @@ public class Ad implements Entry {
         this.price = price;
         this.type = type;
     }
-    public Ad(){
+    public U1363000Ad(){
 
     }
 }

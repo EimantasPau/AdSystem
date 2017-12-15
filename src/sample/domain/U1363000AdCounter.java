@@ -2,12 +2,12 @@ package sample.domain;
 
 import net.jini.core.entry.Entry;
 
-public class AdCounter implements Entry{
+public class U1363000AdCounter implements Entry{
     public Integer nextAdID;
-    public AdCounter(){
+    public U1363000AdCounter(){
 
     }
-    public AdCounter(int n){
+    public U1363000AdCounter(int n){
         nextAdID = n;
     }
 

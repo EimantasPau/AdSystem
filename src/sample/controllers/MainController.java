@@ -48,10 +48,10 @@ public class MainController {
     VBox userAdBox;
     @FXML
     VBox notificationsContainer;
-    public BaseModel model;
-    public Ad newAd;
+    public U1363000BaseModel model;
+    public U1363000Ad newAd;
     public MainController(){
-        this.model = new BaseModel();
+        this.model = new U1363000BaseModel();
         try {
             UnicastRemoteObject.exportObject(adAddedListener, 0);
             UnicastRemoteObject.exportObject(notificationAddedListener, 0);
@@ -65,12 +65,12 @@ public class MainController {
         updateAdList();
         //we want any new ads added.
         List<Entry> adAddedTemplateList = new ArrayList<>();
-        adAddedTemplateList.add(new Ad());
+        adAddedTemplateList.add(new U1363000Ad());
 
 
         List<Entry> commentNotificationTemplateList = new ArrayList<>();
         //interested in any notification that have the userID
-        Notification notificationTemplate = new Notification();
+        U1363000Notification notificationTemplate = new U1363000Notification();
         notificationTemplate.userID = ActiveUser.getInstance().getID();
         commentNotificationTemplateList.add(notificationTemplate);
 
@@ -85,11 +85,11 @@ public class MainController {
         //clear currently rendered ads
         adBox.getChildren().clear();
         adBox.setSpacing(10);
-        Ad adTemplate = new Ad();
+        U1363000Ad adTemplate = new U1363000Ad();
         //get the collection and add it to the ad container
         MatchSet ads = model.readEntries(adTemplate);
-        Ad ad;
-        while ((ad = (Ad)ads.next()) != null) {
+        U1363000Ad ad;
+        while ((ad = (U1363000Ad)ads.next()) != null) {
            addAd(ad, adBox);
         }
     }
@@ -98,12 +98,12 @@ public class MainController {
         //clear currently rendered ads
         userAdBox.getChildren().clear();
         userAdBox.setSpacing(10);
-        Ad adTemplate = new Ad();
+        U1363000Ad adTemplate = new U1363000Ad();
         //get all ads that belong to the logged in user and add them to the user ad container
         adTemplate.userID = ActiveUser.getInstance().getID();
         MatchSet ads = model.readEntries(adTemplate);
-        Ad ad;
-        while ((ad = (Ad)ads.next()) != null) {
+        U1363000Ad ad;
+        while ((ad = (U1363000Ad)ads.next()) != null) {
             addAd(ad, userAdBox);
         }
     }
@@ -111,18 +111,18 @@ public class MainController {
     public void updateNotifications() throws RemoteException, UnusableEntryException, TransactionException {
         notificationsContainer.getChildren().clear();
         notificationsContainer.setSpacing(10);
-        Notification template = new Notification();
+        U1363000Notification template = new U1363000Notification();
         template.userID = ActiveUser.getInstance().getID();
         MatchSet notifications = model.readEntries(template);
-        Notification notification;
-        while ((notification = (Notification)notifications.next()) != null) {
+        U1363000Notification notification;
+        while ((notification = (U1363000Notification)notifications.next()) != null) {
             Text notificationText = new Text(notification.message);
             Separator separator = new Separator();
             notificationsContainer.getChildren().addAll(notificationText, separator);
         }
     }
 
-    public void addAd(Ad ad, VBox container){
+    public void addAd(U1363000Ad ad, VBox container){
         //create fields for the ad and set styles
         Label label = new Label(ad.name);
         label.getStyleClass().add("ad-title");
@@ -150,33 +150,33 @@ public class MainController {
 
     }
     public void checkForEndedAuctions() throws RemoteException, TransactionException, UnusableEntryException {
-        Ad template = new Ad();
+        U1363000Ad template = new U1363000Ad();
         template.type = "Auction";
         MatchSet result = model.readEntries(template);
-        Ad ad;
-        while ((ad = (Ad)result.next()) != null) {
+        U1363000Ad ad;
+        while ((ad = (U1363000Ad)result.next()) != null) {
             if(ad.closingTime.before(new Date())){
                 System.out.println("auction ended");
                 //read the highest bid for an ad if any
-                Bid bidTemplate = new Bid();
+                U1363000Bid bidTemplate = new U1363000Bid();
                 bidTemplate.highestBid = true;
                 bidTemplate.adID = ad.ID;
 
-                Bid highestBid;
+                U1363000Bid highestBid;
                 //send notifications if any bids were made
-                if((highestBid = (Bid) model.readEntry(bidTemplate)) != null) {
+                if((highestBid = (U1363000Bid) model.readEntry(bidTemplate)) != null) {
                     System.out.println("creating notifications");
                     //create notification for the buyer
-                    Notification buyerNotification = new Notification(highestBid.bidderID, "You have won the auction for item " + "'" + ad.name + "' at the price of:" + highestBid.bid);
+                    U1363000Notification buyerNotification = new U1363000Notification(highestBid.bidderID, "You have won the auction for item " + "'" + ad.name + "' at the price of:" + highestBid.bid);
                     model.writeEntry(buyerNotification);
                     //create notification for seller
-                    User buyerTemplate = new User();
+                    U1363000User buyerTemplate = new U1363000User();
                     buyerTemplate.ID = ad.userID;
-                    User buyer = (User) model.readEntry(buyerTemplate);
-                    Notification sellerNotification = new Notification(ad.userID, "Auction for " + "'" + ad.name + "' has ended with the highest bid of " + highestBid.bid + " from " + buyer.username);
+                    U1363000User buyer = (U1363000User) model.readEntry(buyerTemplate);
+                    U1363000Notification sellerNotification = new U1363000Notification(ad.userID, "Auction for " + "'" + ad.name + "' has ended with the highest bid of " + highestBid.bid + " from " + buyer.username);
                     model.writeEntry(sellerNotification);
                 } else {
-                    Notification noBidsNotification = new Notification(ad.userID, "Your auction for" + "'" + ad.name + "' has ended with no bids");
+                    U1363000Notification noBidsNotification = new U1363000Notification(ad.userID, "Your auction for" + "'" + ad.name + "' has ended with no bids");
                     model.writeEntry(noBidsNotification);
                     System.out.println("happening");
                 }
@@ -193,7 +193,7 @@ public class MainController {
             Stage window = new Stage();
             //we get the button from the action event alongside the ad object.
             DisplayAdButton button = (DisplayAdButton) actionEvent.getSource();
-            Ad ad = button.ad;
+            U1363000Ad ad = button.ad;
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle(ad.name);
             window.setMinWidth(500);
@@ -226,7 +226,7 @@ public class MainController {
             try {
                 // AvailabilityEvent provides an extra method to get
                 //     the entry that fired the notification
-                final Ad ad = (Ad) event.getEntry();
+                final U1363000Ad ad = (U1363000Ad) event.getEntry();
 
                 //since we are on a different thread from the JavaFX application thread, we'll update the UI when we finish on this one
                 Platform.runLater(new Runnable(){
@@ -254,7 +254,7 @@ public class MainController {
             try {
                 // AvailabilityEvent provides an extra method to get
                 //     the entry that fired the notification
-                final Notification notification = (Notification) event.getEntry();
+                final U1363000Notification notification = (U1363000Notification) event.getEntry();
                 //since we are on a different thread from the JavaFX application thread, we'll update the UI when we finish on this one
                 Platform.runLater(new Runnable(){
                     @Override

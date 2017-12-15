@@ -10,7 +10,7 @@ public class Alert {
 
     public static void displayNotification(String notification){
         Stage notificationWindow = new Stage();
-        notificationWindow.setTitle("Notification");
+        notificationWindow.setTitle("U1363000Notification");
         notificationWindow.initModality(Modality.WINDOW_MODAL);
         VBox vbox = new VBox();
         vbox.setStyle("-fx-background-color: #FCF4F2; -fx-padding: 20px;");

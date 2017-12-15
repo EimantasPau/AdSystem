@@ -20,8 +20,8 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class AdController implements Initializable {
-    BaseModel model;
-    Ad ad;
+    U1363000BaseModel model;
+    U1363000Ad ad;
 
     @FXML
     Label adTitle;
@@ -47,8 +47,8 @@ public class AdController implements Initializable {
     VBox adDetailsBox;
 
 
-    public AdController(Ad ad) {
-        model = new BaseModel();
+    public AdController(U1363000Ad ad) {
+        model = new U1363000BaseModel();
         this.ad = ad;
     }
 
@@ -56,10 +56,10 @@ public class AdController implements Initializable {
         adTitle.setText(ad.name);
         adDescription.setText(ad.description);
         if (ad.type.equals("Auction")) {
-            Bid template = new Bid();
+            U1363000Bid template = new U1363000Bid();
             template.adID = ad.ID;
             template.highestBid = true;
-            Bid highestBid = (Bid)model.readEntry(template);
+            U1363000Bid highestBid = (U1363000Bid)model.readEntry(template);
             if(highestBid != null){
                 adPrice.setText("Highest bid: " + highestBid.bid.toString());
             } else {
@@ -86,7 +86,7 @@ public class AdController implements Initializable {
         }
     }
 
-    public void setAd(Ad ad){
+    public void setAd(U1363000Ad ad){
         this.ad = ad;
     }
 
@@ -147,13 +147,13 @@ public class AdController implements Initializable {
 
     public void initializeComments() throws RemoteException, TransactionException, UnusableEntryException {
         //get the comments that belong to current ad
-        Comment template = new Comment();
+        U1363000Comment template = new U1363000Comment();
         template.adID = ad.ID;
         MatchSet comments = model.readEntries(template);
-        Comment comment;
+        U1363000Comment comment;
 
         //check if there are any comments.
-        if((comment = (Comment)comments.next()) == null){
+        if((comment = (U1363000Comment)comments.next()) == null){
             Label noComments = new Label("There are no comments for this ad");
             System.out.println("adding label");
             commentsContainer.getChildren().add(noComments);
@@ -162,18 +162,18 @@ public class AdController implements Initializable {
             insertComment(comment);
         }
         //display all comments for the ad
-        while ((comment = (Comment)comments.next()) != null) {
+        while ((comment = (U1363000Comment)comments.next()) != null) {
             System.out.println("Comment loop: " + comment.message);
             insertComment(comment);
         }
 
     }
 
-    public void insertComment(Comment comment) {
+    public void insertComment(U1363000Comment comment) {
         //get the comment author
-        User commentAuthor = new User();
+        U1363000User commentAuthor = new U1363000User();
         commentAuthor.ID = comment.userID;
-        User result = (User)model.readEntry(commentAuthor);
+        U1363000User result = (U1363000User)model.readEntry(commentAuthor);
 
         //prepare text field
         Text message = new Text(result.username + ":" + comment.message);
@@ -192,7 +192,7 @@ public class AdController implements Initializable {
         int authorID = ActiveUser.getInstance().getID();
         int adID = ad.ID;
         //create and write the object
-        Comment newComment = new Comment(adID, authorID, content);
+        U1363000Comment newComment = new U1363000Comment(adID, authorID, content);
         model.writeEntry(newComment);
         Stage stage = (Stage)postCommentButton.getScene().getWindow();
         stage.close();
@@ -204,17 +204,17 @@ public class AdController implements Initializable {
         //get user input.
         Double bid = Double.parseDouble(bidSize.getText());
         //prepare template for highest bid for this ad.
-        Bid template = new Bid();
+        U1363000Bid template = new U1363000Bid();
         template.adID = ad.ID;
         template.highestBid = true;
         //create new bid object.
-        Bid bidTemplate = new Bid(ad.ID, ActiveUser.getInstance().getID(), bid, true);
+        U1363000Bid bidTemplate = new U1363000Bid(ad.ID, ActiveUser.getInstance().getID(), bid, true);
 
-        Bid currentBid;
+        U1363000Bid currentBid;
         //check if a bid has already been placed on this ad, if not we write the new bid object.
-        if((currentBid = (Bid)model.readEntry(template)) == null){
+        if((currentBid = (U1363000Bid)model.readEntry(template)) == null){
             model.writeEntry(bidTemplate);
-            Notification bidNotification = new Notification(ad.userID, "A new bid has been placed on your ad " +"'" + ad.name+ "'");
+            U1363000Notification bidNotification = new U1363000Notification(ad.userID, "A new bid has been placed on your ad " +"'" + ad.name+ "'");
             model.writeEntry(bidNotification);
             Stage stage = (Stage)bidButton.getScene().getWindow();
             stage.close();
@@ -222,12 +222,12 @@ public class AdController implements Initializable {
             //if a bid already exists, we check if the new bid is higher than the old one.
             if(bidTemplate.bid > currentBid.bid){
                 //take out the previous bid and indicate that it's no longer the highest.
-                currentBid = (Bid)model.takeEntry(template);
+                currentBid = (U1363000Bid)model.takeEntry(template);
                 currentBid.highestBid = false;
                 model.writeEntry(currentBid);
                 model.writeEntry(bidTemplate);
                 //create a notification for the ad poster.
-                Notification bidNotification = new Notification(ad.userID, "A new bid has been placed on your ad " +"'" + ad.name+ "'");
+                U1363000Notification bidNotification = new U1363000Notification(ad.userID, "A new bid has been placed on your ad " +"'" + ad.name+ "'");
                 model.writeEntry(bidNotification);
                 Stage stage = (Stage)bidButton.getScene().getWindow();
                 stage.close();
@@ -242,10 +242,10 @@ public class AdController implements Initializable {
     //when item is bought
     public void removeAd(ActionEvent event) throws RemoteException, TransactionException {
         //create a notification for the seller
-        Notification sellerNotification = new Notification(ad.userID, "You have sold " + ad.name + " to " + ActiveUser.getInstance().getUsername() + " for £" + ad.price);
+        U1363000Notification sellerNotification = new U1363000Notification(ad.userID, "You have sold " + ad.name + " to " + ActiveUser.getInstance().getUsername() + " for £" + ad.price);
         model.writeEntry(sellerNotification);
         //create a notification for the buyer
-        Notification buyerNotification = new Notification(ActiveUser.getInstance().getID(), "You have bought " + ad.name + " for £" + ad.price);
+        U1363000Notification buyerNotification = new U1363000Notification(ActiveUser.getInstance().getID(), "You have bought " + ad.name + " for £" + ad.price);
         model.writeEntry(buyerNotification);
 
         //remove ad with the current ad ID
@@ -253,7 +253,7 @@ public class AdController implements Initializable {
     }
     //delete from space
     public void deleteAd(ActionEvent event) {
-        Ad template = new Ad();
+        U1363000Ad template = new U1363000Ad();
         template.ID = ad.ID;
         model.takeEntry(template);
         //close the window
@@ -262,8 +262,8 @@ public class AdController implements Initializable {
         stage.close();
     }
 
-    public void addCommentNotification(Comment comment, Ad ad) throws RemoteException, TransactionException {
-        Notification commentNotification = new Notification(ad.userID, "A new comment has been posted on your add" + "'" + ad.name + "'");
+    public void addCommentNotification(U1363000Comment comment, U1363000Ad ad) throws RemoteException, TransactionException {
+        U1363000Notification commentNotification = new U1363000Notification(ad.userID, "A new comment has been posted on your ad " + "'" + ad.name + "'");
         model.writeEntry(commentNotification);
     }
 }

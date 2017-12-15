@@ -11,15 +11,15 @@ import javafx.stage.Stage;
 import net.jini.core.transaction.TransactionException;
 import sample.ActiveUser;
 import sample.Alert;
-import sample.domain.BaseModel;
-import sample.domain.User;
-import sample.domain.UserCounter;
+import sample.domain.U1363000BaseModel;
+import sample.domain.U1363000User;
+import sample.domain.U1363000UserCounter;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class LoginRegistrationController {
-    public BaseModel model;
+    public U1363000BaseModel model;
 
     @FXML
     Button loginButton;
@@ -41,11 +41,11 @@ public class LoginRegistrationController {
     PasswordField loginPassword;
 
     public LoginRegistrationController(){
-        model = new BaseModel();
+        model = new U1363000BaseModel();
         //check if a counter is already in the space
-        if(model.readEntry(new UserCounter()) == null){
+        if(model.readEntry(new U1363000UserCounter()) == null){
             try {
-                model.writeEntry(new UserCounter(0));
+                model.writeEntry(new U1363000UserCounter(0));
                 System.out.println("writing counter");
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -62,8 +62,8 @@ public class LoginRegistrationController {
             Alert.displayNotification("Please enter your credentials.");
             return;
         }
-        User user = new User(username, password);
-        User result = (User)model.readEntry(user);
+        U1363000User user = new U1363000User(username, password);
+        U1363000User result = (U1363000User)model.readEntry(user);
         if(result == null){
            Alert.displayNotification("Incorrect username or password.");
         } else {
@@ -89,15 +89,15 @@ public class LoginRegistrationController {
         }
 
         //prepare a template with the intended username
-        User existingUser = new User();
+        U1363000User existingUser = new U1363000User();
         existingUser.username = username;
 
         //check if username is available
         if((model.readEntry(existingUser)) == null) {
-            UserCounter counter = (UserCounter)model.takeEntry(new UserCounter());
+            U1363000UserCounter counter = (U1363000UserCounter)model.takeEntry(new U1363000UserCounter());
             counter.incrementID();
             int userID = counter.nextUserID;
-            User user = new User(userID, username, password);
+            U1363000User user = new U1363000User(userID, username, password);
             model.writeEntry(user);
             model.writeEntry(counter);
             Alert.displayNotification("User successfully registered.");

@@ -17,9 +17,9 @@ import java.util.Collection;
 import java.util.EventListener;
 import java.util.List;
 
-public class BaseModel {
+public class U1363000BaseModel {
     private JavaSpace05 space;
-    public BaseModel() {
+    public U1363000BaseModel() {
         space = (JavaSpace05) SpaceUtils.getSpace();
         if(space == null) {
             System.err.println("JavaSpace not found.");

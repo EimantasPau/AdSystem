@@ -1,11 +1,11 @@
 package sample;
 
 import javafx.scene.control.Button;
-import sample.domain.Ad;
+import sample.domain.U1363000Ad;
 
 public class DisplayAdButton extends Button {
-    public Ad ad;
-    public DisplayAdButton(Ad ad){
+    public U1363000Ad ad;
+    public DisplayAdButton(U1363000Ad ad){
         this.ad = ad;
     }
 }

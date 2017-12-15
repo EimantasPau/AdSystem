@@ -6,18 +6,17 @@ import javafx.stage.Stage;
 import net.jini.core.transaction.TransactionException;
 import sample.ActiveUser;
 import sample.Alert;
-import sample.domain.AdCounter;
-import sample.domain.BaseModel;
-import sample.domain.Ad;
+import sample.domain.U1363000AdCounter;
+import sample.domain.U1363000BaseModel;
+import sample.domain.U1363000Ad;
 
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class PostAdController {
 
-    public BaseModel model;
+    public U1363000BaseModel model;
     @FXML
     TextField itemName;
     @FXML
@@ -38,11 +37,11 @@ public class PostAdController {
 
     public PostAdController(){
 
-        model = new BaseModel();
+        model = new U1363000BaseModel();
         //check if a counter is present in the space
-        if(model.readEntry(new AdCounter()) == null){
+        if(model.readEntry(new U1363000AdCounter()) == null){
             try {
-                model.writeEntry(new AdCounter(0));
+                model.writeEntry(new U1363000AdCounter(0));
                 System.out.println("writing counter");
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -71,7 +70,7 @@ public class PostAdController {
         }
 
         //create ad object
-        Ad newAd = new Ad();
+        U1363000Ad newAd = new U1363000Ad();
         if(type.equals("Auction")){
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date());
@@ -95,7 +94,7 @@ public class PostAdController {
         newAd.name = name;
         newAd.description = description;
         //get the counter to get the next ad ID
-        AdCounter counter = (AdCounter)model.takeEntry(new AdCounter());
+        U1363000AdCounter counter = (U1363000AdCounter)model.takeEntry(new U1363000AdCounter());
         counter.incrementID();
         newAd.ID = counter.nextAdID;
         newAd.userID = ActiveUser.getInstance().getID();
